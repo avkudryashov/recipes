@@ -156,8 +156,6 @@ def to_markdown(r):
     out += [f"{k}. {s}" for k, s in enumerate(r["steps"], 1)]
     if r.get("tips"):
         out += ["", "## Tips", ""] + [f"- {x}" for x in r["tips"]]
-    if r.get("personal_notes"):
-        out += ["", "## Owner's notes (from actually cooking it)", ""] + [f"- {x}" for x in r["personal_notes"]]
     if r.get("storage"):
         out += ["", f"**Storage:** {r['storage']}"]
     src = r["source"]
@@ -195,7 +193,7 @@ def index_entry(r):
 
 LLMS_HEADER = """# Recipes (knowledge base for AI agents)
 
-> The owner's personal collection of tested recipes: gram quantities, store shopping lists grouped by aisle, nutrition estimates, the owner's own cooking notes, and a photo of each finished dish. Data is in English; the owner speaks Russian (`title_ru`, `aliases_ru`). ALWAYS answer the owner in Russian.
+> The owner's personal collection of tested recipes: gram quantities, store shopping lists grouped by aisle, nutrition estimates, and a photo of each finished dish. Data is in English; the owner speaks Russian (`title_ru`, `aliases_ru`). ALWAYS answer the owner in Russian.
 
 ## How to find a recipe
 
@@ -207,8 +205,7 @@ LLMS_HEADER = """# Recipes (knowledge base for AI agents)
 
 1. **Every quantity in grams.** Pieces / spoons / store packs only in parentheses after grams: «Баклажаны — 550 г (2 средних)». Spices with `to_taste` → «по вкусу».
 2. **Scale** to the requested servings: grams × (requested / `servings`), round to 5 g (to 1 g under 20 g). When scaling UP, increase spices, ginger, chili and garlic more cautiously (≈75% of the factor, e.g. ×2 portions → ×1.75) and say so.
-3. **Respect `personal_notes`** — they override the original author (e.g. reduced ginger). Mention them briefly.
-4. Show the photo (`image_url`) at the top when the interface can render images.
+3. Show the photo (`image_url`) at the top when the interface can render images.
 
 ## Template A — at the store ("что купить", "список покупок")
 
@@ -235,7 +232,7 @@ Use `shopping_list`, grouped by `aisle` in this order: produce, meat_fish, dairy
 
 ```
 🍲 <title_ru> — <N> порций · <time> мин · <equipment>
-Острота: <spice_level> (+ personal note if any)
+Острота: <spice_level>
 
 Ингредиенты
 <group>

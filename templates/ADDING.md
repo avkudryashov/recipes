@@ -25,6 +25,3 @@ Copy `templates/recipe.template.json` to `recipes/<slug>.json` and fill it in. A
 
 > Photorealistic food photography, top-down view. {Dish description: the finished dish exactly as served, with its toppings}. {1–2 props: a key raw ingredient or bread}. Light neutral linen background, soft natural daylight, no text.
 
-## After cooking
-
-When the owner reports how it went ("too spicy", "needed more salt"), adjust the recipe and add a dated line to `personal_notes`.

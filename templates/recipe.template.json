@@ -40,7 +40,6 @@
     "Give oven temperature and time inside the step: roast 35 min at 180 °C."
   ],
   "tips": ["Practical tip in English."],
-  "personal_notes": ["YYYY-MM-DD: what happened when the owner cooked it and what to change."],
   "storage": "How long and where it keeps.",
   "source": {
     "url": "https://youtube.com/shorts/…",

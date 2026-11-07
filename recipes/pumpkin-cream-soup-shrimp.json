@@ -29,7 +29,7 @@
     { "group": "Soup", "name": "Red onion", "grams": 70 },
     { "group": "Soup", "name": "Bell pepper", "grams": 100 },
     { "group": "Soup", "name": "Garlic", "qty": 1, "unit": "head", "grams": 45 },
-    { "group": "Soup", "name": "Fresh ginger", "grams": 7, "note": "author uses 15 g — came out too hot for the owner" },
+    { "group": "Soup", "name": "Fresh ginger", "grams": 7, "note": "author uses 15 g, which is very hot" },
     { "group": "Soup", "name": "Olive oil", "grams": 50 },
     { "group": "Soup", "name": "Fresh thyme", "grams": 5 },
     { "group": "Spices (go easy)", "name": "Mild curry powder", "to_taste": true, "note": "use a mild blend" },
@@ -76,14 +76,11 @@
     "Lenten/vegan version: skip shrimp, replace cream with coconut milk.",
     "10% cream saves ~170 kcal for the whole pot; 33% cream adds ~230 kcal."
   ],
-  "personal_notes": [
-    "2026-11-07: cooked with author's 15 g ginger — soup came out too hot. Ginger reduced to 7 g, use mild curry."
-  ],
   "storage": "Soup without toppings keeps 2–3 days in the fridge.",
   "source": {
     "url": "https://www.youtube.com/shorts/tqAqFBQUn7o",
     "channel": "Chef Lebedev (Шеф Лебедев)",
-    "note": "Quantities from the video description, serving from the video narration; ginger adjusted after cooking"
+    "note": "Quantities from the video description, serving from the video narration; ginger reduced from 15 g to 7 g"
   },
   "image": "images/pumpkin-cream-soup-shrimp.png"
 }
