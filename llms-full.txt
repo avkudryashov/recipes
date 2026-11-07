@@ -1,0 +1,343 @@
+# Recipes (knowledge base for AI agents)
+
+> The owner's personal collection of tested recipes: gram quantities, store shopping lists grouped by aisle, nutrition estimates, the owner's own cooking notes, and a photo of each finished dish. Data is in English; the owner speaks Russian (`title_ru`, `aliases_ru`). ALWAYS answer the owner in Russian.
+
+## How to find a recipe
+
+- Fetch https://avkudryashov.github.io/recipes/index.json and match the request against `title_ru`, `aliases_ru`, `title`, `main_ingredients`, `tags`, `course`, `diet`, `method`.
+- Then fetch the recipe's `md_url` (Markdown) or `json_url` (structured). Everything in one file: https://avkudryashov.github.io/recipes/llms-full.txt
+- Never invent quantities. If the recipe is not in the base, say so.
+
+## Response rules (mandatory)
+
+1. **Every quantity in grams.** Pieces / spoons / store packs only in parentheses after grams: «Баклажаны — 550 г (2 средних)». Spices with `to_taste` → «по вкусу».
+2. **Scale** to the requested servings: grams × (requested / `servings`), round to 5 g (to 1 g under 20 g). When scaling UP, increase spices, ginger, chili and garlic more cautiously (≈75% of the factor, e.g. ×2 portions → ×1.75) and say so.
+3. **Respect `personal_notes`** — they override the original author (e.g. reduced ginger). Mention them briefly.
+4. Show the photo (`image_url`) at the top when the interface can render images.
+
+## Template A — at the store ("что купить", "список покупок")
+
+Use `shopping_list`, grouped by `aisle` in this order: produce, meat_fish, dairy, bakery, grocery, frozen, spices, pantry. For several dishes, MERGE the lists and SUM grams of the same product, noting which dish needs what.
+
+```
+🛒 <title_ru> — <N> порций
+
+Овощи и зелень
+- [ ] Тыква — 450 г очищенной (купить 1 небольшую, 600–650 г)
+- [ ] Имбирь — 7 г (кусочек 2 см)
+Мясо и рыба
+- [ ] Креветки — 225 г
+Молочное
+- [ ] Сливки 20 % — 200 г
+Бакалея
+- [ ] Тыквенные семечки — 20 г
+Проверить дома
+- Оливковое масло — 50 г
+- Специи: карри (мягкое), мускатный орех — по вкусу
+```
+
+## Template B — cooking ("как готовить", "рецепт")
+
+```
+🍲 <title_ru> — <N> порций · <time> мин · <equipment>
+Острота: <spice_level> (+ personal note if any)
+
+Ингредиенты
+<group>
+- <name> — <grams> г (<qty unit>)
+
+Приготовление
+1. <step with grams inline: «Налейте 300 г воды и 200 г сливок…»>
+2. …
+
+Советы: <1–3 most relevant tips>
+```
+
+## Template C — several dishes at once ("готовлю суп и салат")
+
+First a combined timeline: what goes into the oven first and at what temperature, what to do while it bakes, what is finished last (things served hot, e.g. shrimp or steaks). Then each dish in Template B, with steps re-ordered to the timeline. Give one step at a time if the owner is cooking live.
+
+
+---
+
+# Mediterranean Olive Spread with Vegan Feta
+
+*Средиземноморская паста из оливок с веганской фетой*
+
+Also known as: паста из оливок, намазка из оливок, оливковая паста с фетой, тапенада с фетой
+
+A 5-minute blender spread of brined olives, vegan feta, parsley and pine nuts. No salt and no lemon needed.
+
+![Mediterranean Olive Spread with Vegan Feta](https://avkudryashov.github.io/recipes/images/olive-feta-spread.png)
+
+- **Servings:** 6 (yield ≈430 g)
+- **Time:** 5 min (prep 5, cook 0)
+- **Course:** appetizer, spread; cuisine: mediterranean
+- **Diet:** vegan, gluten-free
+- **Method:** blender, no-cook
+- **Equipment:** blender or food processor
+- **Spice level:** mild
+- **Tags:** olives, quick, for bread, dip
+- **Nutrition (per 100 g, vegan feta version (tofu version ≈185 kcal)):** 230 kcal, protein 3 g, fat 22 g, carbs 6 g — estimate
+
+## Ingredients (for 6 servings)
+
+- Brined olives (green, black or mixed), drained — 200 g
+- Vegan feta or salted firm tofu — 150 g
+- Fresh parsley — 40 g (1 bunch)
+- Pine nuts — 10 g (1 tbsp)
+- Extra virgin olive oil — 25 g (25–30 ml)
+- Freshly ground black pepper — to taste
+
+## Shopping list (for 6 servings, grouped by store aisle)
+
+**Produce (vegetables, fruit, herbs)**
+
+- [ ] Fresh parsley — 40 g (buy: 1 bunch)
+
+**Dairy**
+
+- [ ] Vegan feta — 150 g (buy: 1 pack); or firm tofu 150 g + salt
+
+**Grocery (cans, nuts, grains)**
+
+- [ ] Brined olives — 200 g (buy: 1 jar 300–350 g); drained weight needed
+- [ ] Pine nuts — 10 g (buy: 1 small pack); or walnuts / sunflower seeds
+
+**Spices**
+
+- [ ] Black peppercorns — to taste
+
+**Pantry — check at home**
+
+- [ ] Extra virgin olive oil — 25 g
+
+## Method
+
+1. Drain 200 g olives and pat them dry, otherwise the spread turns runny. If using tofu, press 150 g and salt it.
+2. Optionally toast 10 g pine nuts in a dry pan for 2–3 minutes.
+3. Put the olives, 150 g feta (or tofu), 40 g parsley, the pine nuts, black pepper and 25 g olive oil into a blender.
+4. Blend until smooth, or leave it slightly chunky for texture.
+5. Taste and add more pepper if needed. No salt needed.
+6. Serve with toasted bread, crackers or fresh vegetables.
+
+## Tips
+
+- Do not add lemon juice: the brine already gives enough acidity, lemon overpowers the flavor.
+- No added salt — olives and feta are already salty.
+
+**Storage:** Refrigerate in a closed jar for 3–4 days.
+
+## Source
+
+- Video: https://youtube.com/shorts/Lde29nIcvaQ (Soy Boy)
+- Quantities from the video description
+
+JSON: https://avkudryashov.github.io/recipes/recipes/olive-feta-spread.json
+
+---
+
+# Roasted Pumpkin Cream Soup with Shrimp
+
+*Тыквенный крем-суп с креветками*
+
+Also known as: тыквенный суп, крем-суп из тыквы, суп-пюре из тыквы, тыквенный суп с креветками
+
+Cream soup of oven-roasted pumpkin, carrot, onion, bell pepper, garlic and ginger blended with cream. Served with seared shrimp, grated tomato, pumpkin seeds and croutons.
+
+![Roasted Pumpkin Cream Soup with Shrimp](https://avkudryashov.github.io/recipes/images/pumpkin-cream-soup-shrimp.png)
+
+- **Servings:** 3 (yield ≈1100 g)
+- **Time:** 55 min (prep 15, cook 40)
+- **Course:** soup, main; cuisine: european
+- **Diet:** gluten-free (without croutons)
+- **Method:** oven, blender
+- **Equipment:** oven 180 °C convection, immersion blender
+- **Spice level:** medium
+- **Tags:** pumpkin, autumn, cream soup, shrimp
+- **Nutrition (per 300 g serving of soup, 20% cream, without toppings (toppings add 150–200 kcal and 15–20 g protein)):** 300 kcal, protein 4 g, fat 25 g, carbs 15 g — estimate
+
+## Ingredients (for 3 servings)
+
+**Soup**
+
+- Pumpkin, peeled — 450 g; ≈600–650 g whole pumpkin
+- Carrot — 70 g
+- Red onion — 70 g
+- Bell pepper — 100 g
+- Garlic — 45 g (1 head)
+- Fresh ginger — 7 g; author uses 15 g — came out too hot for the owner
+- Olive oil — 50 g
+- Fresh thyme — 5 g
+
+**Spices (go easy)**
+
+- Mild curry powder — to taste; use a mild blend
+- Black pepper — to taste; a little
+- Nutmeg — to taste; a pinch, ~1/4 tsp — easy to overdo
+- Sweet paprika — to taste
+- Salt — to taste
+- Sugar — to taste; a pinch
+
+**Liquid**
+
+- Drinking water — 300 g
+- Cream 20% — 200 g; author does not specify fat; 20–33% works
+
+**Toppings (for 3 servings)**
+
+- Shrimp, pan-seared — 225 g [optional]
+- Tomato, grated — 150 g (1–2 pcs) [optional]
+- Pumpkin seeds, toasted — 20 g (2 tbsp) [optional]
+- Croutons — 40 g (1–2 slices of bread) [optional]
+
+## Shopping list (for 3 servings, grouped by store aisle)
+
+**Produce (vegetables, fruit, herbs)**
+
+- [ ] Pumpkin (butternut or musk) — 450 g (buy: 1 small, 600–650 g whole); peeled weight needed
+- [ ] Carrot — 70 g (buy: 1)
+- [ ] Red onion — 70 g (buy: 1 small)
+- [ ] Bell pepper — 100 g (buy: 1)
+- [ ] Garlic — 45 g (buy: 1 head)
+- [ ] Fresh ginger — 7 g (buy: piece 2 cm)
+- [ ] Fresh thyme — 5 g (buy: 1 pack)
+- [ ] Tomatoes — 150 g (buy: 1–2)
+
+**Meat & fish**
+
+- [ ] Shrimp — 225 g (buy: 1 pack); peeled; frozen is fine
+
+**Dairy**
+
+- [ ] Cream 20% — 200 g (buy: 1 pack 200 ml)
+
+**Bakery**
+
+- [ ] Bread for croutons — 40 g (buy: 1–2 slices)
+
+**Grocery (cans, nuts, grains)**
+
+- [ ] Pumpkin seeds — 20 g (buy: 1 small pack)
+
+**Spices**
+
+- [ ] Spices: mild curry, nutmeg, sweet paprika, black pepper, salt, sugar — to taste
+
+**Pantry — check at home**
+
+- [ ] Olive oil — 50 g
+
+## Method
+
+1. Preheat the oven to 180 °C with convection. Cut 450 g pumpkin, 70 g carrot, 70 g red onion and 100 g bell pepper into medium chunks. Cut the top off the garlic head (45 g). Slice 7 g ginger thinly.
+2. Add 5 g thyme and the spices (go easy), drizzle with 50 g olive oil, toss.
+3. Roast about 35 minutes at 180 °C with convection — the vegetables should brown slightly, that is where the flavor comes from.
+4. Separately warm 300 g water with 200 g cream; do not boil.
+5. Squeeze the garlic out of its skins, keep only thyme leaves. Transfer all vegetables (including the onion) to a tall pot, add the warm cream and water, blend until completely smooth.
+6. Taste. Adjust with salt and a pinch of sugar. If too thick, add hot water.
+7. Serve topped with 225 g seared shrimp, 150 g grated tomato, 20 g pumpkin seeds and croutons.
+
+## Tips
+
+- Too hot/spicy: stir in 50–100 g cream or coconut milk, a pinch of sugar, serve with sour cream or Greek yogurt.
+- Too thick — thin with hot water; too thin — simmer gently a few minutes without boiling.
+- Lenten/vegan version: skip shrimp, replace cream with coconut milk.
+- 10% cream saves ~170 kcal for the whole pot; 33% cream adds ~230 kcal.
+
+## Owner's notes (from actually cooking it)
+
+- 2026-11-07: cooked with author's 15 g ginger — soup came out too hot. Ginger reduced to 7 g, use mild curry.
+
+**Storage:** Soup without toppings keeps 2–3 days in the fridge.
+
+## Source
+
+- Video: https://www.youtube.com/shorts/tqAqFBQUn7o (Chef Lebedev (Шеф Лебедев))
+- Quantities from the video description, serving from the video narration; ginger adjusted after cooking
+
+JSON: https://avkudryashov.github.io/recipes/recipes/pumpkin-cream-soup-shrimp.json
+
+---
+
+# Roasted Eggplant & Chickpea Salad
+
+*Салат из запечённых баклажанов с нутом*
+
+Also known as: салат с баклажанами, салат с нутом, баклажаны с нутом, салат из баклажанов
+
+Warm or cold salad of roasted eggplant, red peppers and garlic with chickpeas and parsley. Very little oil, high in fiber.
+
+![Roasted Eggplant & Chickpea Salad](https://avkudryashov.github.io/recipes/images/roasted-eggplant-chickpea-salad.png)
+
+- **Servings:** 4 (yield ≈1150 g)
+- **Time:** 50 min (prep 10, cook 40)
+- **Course:** salad, main, side; cuisine: mediterranean
+- **Diet:** vegan, gluten-free, high-protein
+- **Method:** oven
+- **Equipment:** oven 220 °C, baking sheet, foil
+- **Spice level:** mild
+- **Tags:** eggplant, chickpeas, meal prep, healthy
+- **Nutrition (per serving (~280 g), without bread and added salt):** 201 kcal, protein 9 g, fat 6 g, carbs 29 g, fiber 8 g — estimate
+
+## Ingredients (for 4 servings)
+
+- Cooked chickpeas, drained and rinsed — 400 g; ≈160 g dry
+- Medium eggplants — 550 g (2 pcs)
+- Red bell peppers — 320 g (2 pcs)
+- Fresh parsley, finely chopped — 40 g (1 bunch)
+- Garlic — 45 g (1 head)
+- Olive oil — 13 g (1 tbsp); divided: part for roasting, rest for dressing
+- Lemon juice — 15 g (1/2 lemon) [optional]
+- Salt — to taste
+- Black pepper — to taste
+- Smoked paprika or chili flakes — to taste; sprinkle when serving [optional]
+
+## Shopping list (for 4 servings, grouped by store aisle)
+
+**Produce (vegetables, fruit, herbs)**
+
+- [ ] Eggplants — 550 g (buy: 2 medium)
+- [ ] Red bell peppers — 320 g (buy: 2)
+- [ ] Fresh parsley — 40 g (buy: 1 bunch)
+- [ ] Garlic — 45 g (buy: 1 head)
+- [ ] Lemon (optional) — 15 g (buy: 1); 15 g juice = half a lemon
+
+**Grocery (cans, nuts, grains)**
+
+- [ ] Canned chickpeas — 400 g (buy: 2 cans × 400 g (≈240 g drained each)); drained weight needed; or 160 g dry, soak overnight and boil
+
+**Spices**
+
+- [ ] Spices: salt, black pepper, smoked paprika — to taste
+
+**Pantry — check at home**
+
+- [ ] Olive oil — 13 g
+
+## Method
+
+1. Preheat the oven to 220 °C (425 °F). Drain and rinse 400 g chickpeas. Prick 2 whole eggplants (550 g) with a fork. Cut the top off the garlic head (45 g).
+2. Rub the eggplants and 2 peppers (320 g) lightly with part of the 13 g oil. Wrap the garlic in foil with a drop of oil.
+3. Roast everything on a baking sheet for 35–40 minutes at 220 °C, turning halfway. Check the garlic at 25 minutes and remove once soft. Larger eggplants need more time.
+4. While roasting: chop 40 g parsley. When the peppers are done and cool enough, peel, seed and chop them to chickpea-sized pieces; put in the bowl with the chickpeas.
+5. Squeeze the garlic out of its skins, mash with a fork and add to the bowl.
+6. Cool the eggplants until safe to handle. Peel, cut off stems, finely chop the flesh, drain the juice, add to the bowl.
+7. Add the parsley, the rest of the oil, salt, pepper and optionally 15 g lemon juice. Mix and taste. Serve warm or chilled, with bread or in wraps.
+
+## Tips
+
+- Chickpeas stay whole — do not chop them.
+- For a juicier salad add 1–2 more tbsp olive oil.
+- Tastes even better the next day.
+- Peeled eggplant gives a dip-like texture; keeping the skin adds more smoky flavor.
+
+**Storage:** Refrigerate in an airtight container up to 3 days.
+
+## Source
+
+- Video: https://youtube.com/shorts/CDC3QCKxlA8 (Dr. Vegan)
+- Author's recipe: https://drveganblog.com/roasted-eggplant-and-chickpea-salad
+- Quantities and nutrition from the author's blog
+
+JSON: https://avkudryashov.github.io/recipes/recipes/roasted-eggplant-chickpea-salad.json

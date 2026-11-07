@@ -1,0 +1,64 @@
+# Recipes (knowledge base for AI agents)
+
+> The owner's personal collection of tested recipes: gram quantities, store shopping lists grouped by aisle, nutrition estimates, the owner's own cooking notes, and a photo of each finished dish. Data is in English; the owner speaks Russian (`title_ru`, `aliases_ru`). ALWAYS answer the owner in Russian.
+
+## How to find a recipe
+
+- Fetch https://avkudryashov.github.io/recipes/index.json and match the request against `title_ru`, `aliases_ru`, `title`, `main_ingredients`, `tags`, `course`, `diet`, `method`.
+- Then fetch the recipe's `md_url` (Markdown) or `json_url` (structured). Everything in one file: https://avkudryashov.github.io/recipes/llms-full.txt
+- Never invent quantities. If the recipe is not in the base, say so.
+
+## Response rules (mandatory)
+
+1. **Every quantity in grams.** Pieces / spoons / store packs only in parentheses after grams: «Баклажаны — 550 г (2 средних)». Spices with `to_taste` → «по вкусу».
+2. **Scale** to the requested servings: grams × (requested / `servings`), round to 5 g (to 1 g under 20 g). When scaling UP, increase spices, ginger, chili and garlic more cautiously (≈75% of the factor, e.g. ×2 portions → ×1.75) and say so.
+3. **Respect `personal_notes`** — they override the original author (e.g. reduced ginger). Mention them briefly.
+4. Show the photo (`image_url`) at the top when the interface can render images.
+
+## Template A — at the store ("что купить", "список покупок")
+
+Use `shopping_list`, grouped by `aisle` in this order: produce, meat_fish, dairy, bakery, grocery, frozen, spices, pantry. For several dishes, MERGE the lists and SUM grams of the same product, noting which dish needs what.
+
+```
+🛒 <title_ru> — <N> порций
+
+Овощи и зелень
+- [ ] Тыква — 450 г очищенной (купить 1 небольшую, 600–650 г)
+- [ ] Имбирь — 7 г (кусочек 2 см)
+Мясо и рыба
+- [ ] Креветки — 225 г
+Молочное
+- [ ] Сливки 20 % — 200 г
+Бакалея
+- [ ] Тыквенные семечки — 20 г
+Проверить дома
+- Оливковое масло — 50 г
+- Специи: карри (мягкое), мускатный орех — по вкусу
+```
+
+## Template B — cooking ("как готовить", "рецепт")
+
+```
+🍲 <title_ru> — <N> порций · <time> мин · <equipment>
+Острота: <spice_level> (+ personal note if any)
+
+Ингредиенты
+<group>
+- <name> — <grams> г (<qty unit>)
+
+Приготовление
+1. <step with grams inline: «Налейте 300 г воды и 200 г сливок…»>
+2. …
+
+Советы: <1–3 most relevant tips>
+```
+
+## Template C — several dishes at once ("готовлю суп и салат")
+
+First a combined timeline: what goes into the oven first and at what temperature, what to do while it bakes, what is finished last (things served hot, e.g. shrimp or steaks). Then each dish in Template B, with steps re-ordered to the timeline. Give one step at a time if the owner is cooking live.
+
+## Recipes
+
+- [Mediterranean Olive Spread with Vegan Feta](https://avkudryashov.github.io/recipes/recipes/olive-feta-spread.md) — Средиземноморская паста из оливок с веганской фетой (паста из оливок, намазка из оливок, оливковая паста с фетой, тапенада с фетой): appetizer, spread; olives, vegan feta, tofu, parsley, pine nuts; 5 min
+- [Roasted Pumpkin Cream Soup with Shrimp](https://avkudryashov.github.io/recipes/recipes/pumpkin-cream-soup-shrimp.md) — Тыквенный крем-суп с креветками (тыквенный суп, крем-суп из тыквы, суп-пюре из тыквы, тыквенный суп с креветками): soup, main; pumpkin, carrot, bell pepper, garlic, ginger, cream, shrimp; 55 min
+- [Roasted Eggplant & Chickpea Salad](https://avkudryashov.github.io/recipes/recipes/roasted-eggplant-chickpea-salad.md) — Салат из запечённых баклажанов с нутом (салат с баклажанами, салат с нутом, баклажаны с нутом, салат из баклажанов): salad, main, side; eggplant, chickpeas, bell pepper, garlic, parsley; 50 min

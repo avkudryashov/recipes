@@ -2,6 +2,7 @@
   "slug": "roasted-eggplant-chickpea-salad",
   "title": "Roasted Eggplant & Chickpea Salad",
   "title_ru": "Салат из запечённых баклажанов с нутом",
+  "aliases_ru": ["салат с баклажанами", "салат с нутом", "баклажаны с нутом", "салат из баклажанов"],
   "summary": "Warm or cold salad of roasted eggplant, red peppers and garlic with chickpeas and parsley. Very little oil, high in fiber.",
   "course": ["salad", "main", "side"],
   "cuisine": "mediterranean",
@@ -12,6 +13,8 @@
   "servings": 4,
   "yield_g": 1150,
   "time_min": { "prep": 10, "cook": 40, "total": 50 },
+  "equipment": ["oven 220 °C", "baking sheet", "foil"],
+  "spice_level": "mild",
   "nutrition": {
     "basis": "per serving (~280 g), without bread and added salt",
     "kcal": 201,
@@ -22,39 +25,43 @@
     "estimated": true
   },
   "ingredients": [
-    { "name": "Cooked chickpeas, drained and rinsed", "grams": 400, "note": "≈160 g dry or 1.5 cans" },
+    { "name": "Cooked chickpeas, drained and rinsed", "grams": 400, "note": "≈160 g dry" },
     { "name": "Medium eggplants", "qty": 2, "unit": "pcs", "grams": 550 },
     { "name": "Red bell peppers", "qty": 2, "unit": "pcs", "grams": 320 },
     { "name": "Fresh parsley, finely chopped", "qty": 1, "unit": "bunch", "grams": 40 },
     { "name": "Garlic", "qty": 1, "unit": "head", "grams": 45 },
     { "name": "Olive oil", "qty": 1, "unit": "tbsp", "grams": 13, "note": "divided: part for roasting, rest for dressing" },
-    { "name": "Salt and black pepper", "note": "to taste" },
-    { "name": "Smoked paprika or chili flakes", "note": "sprinkle when serving", "optional": true },
-    { "name": "Lemon juice", "note": "to taste", "optional": true }
+    { "name": "Lemon juice", "qty": "1/2", "unit": "lemon", "grams": 15, "optional": true },
+    { "name": "Salt", "to_taste": true },
+    { "name": "Black pepper", "to_taste": true },
+    { "name": "Smoked paprika or chili flakes", "to_taste": true, "optional": true, "note": "sprinkle when serving" }
   ],
   "shopping_list": [
-    { "item": "Chickpeas", "qty": "1.5 cans (400 g each)", "alt": "160–170 g dry (soak overnight and boil)" },
-    { "item": "Eggplants", "qty": "2 medium" },
-    { "item": "Red bell peppers", "qty": "2" },
-    { "item": "Fresh parsley", "qty": "1 bunch" },
-    { "item": "Garlic", "qty": "1 head" },
-    { "item": "Olive oil, salt, pepper", "qty": "pantry" },
-    { "item": "Smoked paprika / lemon", "qty": "optional" }
+    { "item": "Canned chickpeas", "qty": "2 cans × 400 g (≈240 g drained each)", "grams": 400, "aisle": "grocery", "note": "drained weight needed; or 160 g dry, soak overnight and boil" },
+    { "item": "Eggplants", "qty": "2 medium", "grams": 550, "aisle": "produce" },
+    { "item": "Red bell peppers", "qty": "2", "grams": 320, "aisle": "produce" },
+    { "item": "Fresh parsley", "qty": "1 bunch", "grams": 40, "aisle": "produce" },
+    { "item": "Garlic", "qty": "1 head", "grams": 45, "aisle": "produce" },
+    { "item": "Lemon (optional)", "qty": "1", "grams": 15, "aisle": "produce", "note": "15 g juice = half a lemon" },
+    { "item": "Olive oil", "qty": "pantry", "grams": 13, "aisle": "pantry" },
+    { "item": "Spices: salt, black pepper, smoked paprika", "qty": "pantry", "to_taste": true, "aisle": "spices" }
   ],
   "steps": [
-    "Preheat the oven to 220 °C (425 °F). Drain and rinse the chickpeas. Prick the whole eggplants with a fork. Cut the top off the garlic head.",
-    "Rub the eggplants and peppers lightly with oil. Wrap the garlic in foil with a drop of oil.",
-    "Roast everything on a baking sheet for 35–40 minutes, turning halfway. Check the garlic at 25 minutes and remove once soft. Larger eggplants need more time.",
-    "Cool until safe to handle. Peel the eggplants and peppers, discard pepper stems and seeds. Drain excess liquid and finely chop the flesh.",
-    "Squeeze the garlic out of its skins and mash.",
-    "Mix chickpeas, vegetables and garlic. Once slightly cooled, fold in the parsley.",
-    "Dress with the remaining oil, salt and pepper, mix well. Serve warm or chilled, with bread or in wraps."
+    "Preheat the oven to 220 °C (425 °F). Drain and rinse 400 g chickpeas. Prick 2 whole eggplants (550 g) with a fork. Cut the top off the garlic head (45 g).",
+    "Rub the eggplants and 2 peppers (320 g) lightly with part of the 13 g oil. Wrap the garlic in foil with a drop of oil.",
+    "Roast everything on a baking sheet for 35–40 minutes at 220 °C, turning halfway. Check the garlic at 25 minutes and remove once soft. Larger eggplants need more time.",
+    "While roasting: chop 40 g parsley. When the peppers are done and cool enough, peel, seed and chop them to chickpea-sized pieces; put in the bowl with the chickpeas.",
+    "Squeeze the garlic out of its skins, mash with a fork and add to the bowl.",
+    "Cool the eggplants until safe to handle. Peel, cut off stems, finely chop the flesh, drain the juice, add to the bowl.",
+    "Add the parsley, the rest of the oil, salt, pepper and optionally 15 g lemon juice. Mix and taste. Serve warm or chilled, with bread or in wraps."
   ],
   "tips": [
-    "For a juicier salad add 1–2 more tbsp olive oil and juice of half a lemon.",
+    "Chickpeas stay whole — do not chop them.",
+    "For a juicier salad add 1–2 more tbsp olive oil.",
     "Tastes even better the next day.",
     "Peeled eggplant gives a dip-like texture; keeping the skin adds more smoky flavor."
   ],
+  "personal_notes": [],
   "storage": "Refrigerate in an airtight container up to 3 days.",
   "source": {
     "url": "https://youtube.com/shorts/CDC3QCKxlA8",

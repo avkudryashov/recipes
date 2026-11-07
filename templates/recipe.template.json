@@ -1,0 +1,52 @@
+{
+  "slug": "kebab-case-english-name",
+  "title": "English Dish Name",
+  "title_ru": "Русское название",
+  "aliases_ru": ["другое русское название", "как ещё могут попросить"],
+  "summary": "1–2 sentences in English: what it is and why it is good.",
+  "course": ["main"],
+  "cuisine": "mediterranean",
+  "diet": ["vegan"],
+  "method": ["oven"],
+  "tags": ["main-ingredient", "season", "quick"],
+  "main_ingredients": ["eggplant", "chickpeas"],
+  "servings": 4,
+  "yield_g": 1000,
+  "time_min": { "prep": 10, "cook": 30, "total": 40 },
+  "equipment": ["oven 200 °C", "blender"],
+  "spice_level": "mild",
+  "nutrition": {
+    "basis": "per serving (~250 g)",
+    "kcal": 0,
+    "protein_g": 0,
+    "fat_g": 0,
+    "carbs_g": 0,
+    "estimated": true
+  },
+  "ingredients": [
+    { "group": "Main", "name": "Ingredient as used in the recipe", "grams": 100 },
+    { "group": "Main", "name": "Ingredient counted in pieces", "qty": 2, "unit": "pcs", "grams": 300 },
+    { "group": "Main", "name": "Optional ingredient", "grams": 15, "optional": true },
+    { "group": "Spices", "name": "Salt", "to_taste": true }
+  ],
+  "shopping_list": [
+    { "item": "Product as sold in store", "qty": "1 jar 350 g", "grams": 200, "aisle": "grocery", "note": "drained weight needed" },
+    { "item": "Vegetable", "qty": "2 medium", "grams": 300, "aisle": "produce" },
+    { "item": "Olive oil", "qty": "pantry", "grams": 30, "aisle": "pantry" },
+    { "item": "Spices: salt, black pepper", "qty": "pantry", "to_taste": true, "aisle": "spices" }
+  ],
+  "steps": [
+    "One action per step, with amounts inline: add 300 g water and 200 g cream.",
+    "Give oven temperature and time inside the step: roast 35 min at 180 °C."
+  ],
+  "tips": ["Practical tip in English."],
+  "personal_notes": ["YYYY-MM-DD: what happened when the owner cooked it and what to change."],
+  "storage": "How long and where it keeps.",
+  "source": {
+    "url": "https://youtube.com/shorts/…",
+    "channel": "Channel name",
+    "recipe_url": "optional link to author's written recipe",
+    "note": "Where the quantities came from"
+  },
+  "image": "images/kebab-case-english-name.png"
+}

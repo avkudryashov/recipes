@@ -2,6 +2,7 @@
   "slug": "olive-feta-spread",
   "title": "Mediterranean Olive Spread with Vegan Feta",
   "title_ru": "Средиземноморская паста из оливок с веганской фетой",
+  "aliases_ru": ["паста из оливок", "намазка из оливок", "оливковая паста с фетой", "тапенада с фетой"],
   "summary": "A 5-minute blender spread of brined olives, vegan feta, parsley and pine nuts. No salt and no lemon needed.",
   "course": ["appetizer", "spread"],
   "cuisine": "mediterranean",
@@ -12,6 +13,8 @@
   "servings": 6,
   "yield_g": 430,
   "time_min": { "prep": 5, "cook": 0, "total": 5 },
+  "equipment": ["blender or food processor"],
+  "spice_level": "mild",
   "nutrition": {
     "basis": "per 100 g, vegan feta version (tofu version ≈185 kcal)",
     "kcal": 230,
@@ -25,21 +28,21 @@
     { "name": "Vegan feta or salted firm tofu", "grams": 150 },
     { "name": "Fresh parsley", "qty": 1, "unit": "bunch", "grams": 40 },
     { "name": "Pine nuts", "qty": 1, "unit": "tbsp", "grams": 10 },
-    { "name": "Freshly ground black pepper", "note": "to taste" },
-    { "name": "Extra virgin olive oil", "qty": "25–30", "unit": "ml", "grams": 25 }
+    { "name": "Extra virgin olive oil", "qty": "25–30", "unit": "ml", "grams": 25 },
+    { "name": "Freshly ground black pepper", "to_taste": true }
   ],
   "shopping_list": [
-    { "item": "Brined olives", "qty": "1 jar 300–350 g (≈200 g drained)" },
-    { "item": "Vegan feta", "qty": "150 g", "alt": "150 g firm tofu + salt" },
-    { "item": "Fresh parsley", "qty": "1 bunch" },
-    { "item": "Pine nuts", "qty": "1 small pack", "alt": "walnuts or sunflower seeds" },
-    { "item": "Extra virgin olive oil", "qty": "pantry" },
-    { "item": "Black peppercorns", "qty": "pantry" }
+    { "item": "Brined olives", "qty": "1 jar 300–350 g", "grams": 200, "aisle": "grocery", "note": "drained weight needed" },
+    { "item": "Vegan feta", "qty": "1 pack", "grams": 150, "aisle": "dairy", "note": "or firm tofu 150 g + salt" },
+    { "item": "Fresh parsley", "qty": "1 bunch", "grams": 40, "aisle": "produce" },
+    { "item": "Pine nuts", "qty": "1 small pack", "grams": 10, "aisle": "grocery", "note": "or walnuts / sunflower seeds" },
+    { "item": "Extra virgin olive oil", "qty": "pantry", "grams": 25, "aisle": "pantry" },
+    { "item": "Black peppercorns", "qty": "pantry", "to_taste": true, "aisle": "spices" }
   ],
   "steps": [
-    "Drain the olives and pat them dry, otherwise the spread turns runny. If using tofu, press it and salt it.",
-    "Optionally toast the pine nuts in a dry pan for 2–3 minutes.",
-    "Put the olives, feta (or tofu), parsley, pine nuts, pepper and olive oil into a blender or food processor.",
+    "Drain 200 g olives and pat them dry, otherwise the spread turns runny. If using tofu, press 150 g and salt it.",
+    "Optionally toast 10 g pine nuts in a dry pan for 2–3 minutes.",
+    "Put the olives, 150 g feta (or tofu), 40 g parsley, the pine nuts, black pepper and 25 g olive oil into a blender.",
     "Blend until smooth, or leave it slightly chunky for texture.",
     "Taste and add more pepper if needed. No salt needed.",
     "Serve with toasted bread, crackers or fresh vegetables."
@@ -48,6 +51,7 @@
     "Do not add lemon juice: the brine already gives enough acidity, lemon overpowers the flavor.",
     "No added salt — olives and feta are already salty."
   ],
+  "personal_notes": [],
   "storage": "Refrigerate in a closed jar for 3–4 days.",
   "source": {
     "url": "https://youtube.com/shorts/Lde29nIcvaQ",
