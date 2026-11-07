@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Собирает сайт рецептов для AI-агентов из recipes/*.json в _site/.
+"""Build the AI-readable recipe site from recipes/*.json into _site/.
 
-Без внешних зависимостей. Запуск: python3 scripts/build.py
-Базовый URL берётся из SITE_URL (по умолчанию GitHub Pages репозитория).
+No external dependencies. Run: python3 scripts/build.py
+Base URL comes from SITE_URL (defaults to this repo's GitHub Pages URL).
 """
 import html
 import json
@@ -27,16 +27,16 @@ def load_recipes():
         try:
             r = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:
-            errors.append(f"{path.name}: невалидный JSON: {e}")
+            errors.append(f"{path.name}: invalid JSON: {e}")
             continue
         missing = [k for k in REQUIRED if k not in r]
         if missing:
-            errors.append(f"{path.name}: нет полей {missing}")
+            errors.append(f"{path.name}: missing fields {missing}")
         if r.get("slug") != path.stem:
-            errors.append(f"{path.name}: slug '{r.get('slug')}' не совпадает с именем файла")
+            errors.append(f"{path.name}: slug '{r.get('slug')}' does not match file name")
         recipes.append(r)
     if errors:
-        sys.exit("Ошибки в рецептах:\n" + "\n".join(errors))
+        sys.exit("Recipe errors:\n" + "\n".join(errors))
     return recipes
 
 
@@ -56,14 +56,14 @@ def fmt_ing(i):
     if "qty" in i:
         parts.append(f"{i['qty']} {i.get('unit', '')}".strip())
     if "grams" in i:
-        g = f"{i['grams']} г"
+        g = f"{i['grams']} g"
         parts.append(f"({g})" if parts else g)
     amount = " ".join(parts)
     line = f"{i['name']} — {amount}" if amount else i["name"]
     if i.get("note"):
         line += f"; {i['note']}"
     if i.get("optional"):
-        line += " (по желанию)"
+        line += " (optional)"
     return line
 
 
@@ -71,49 +71,51 @@ def to_markdown(r):
     u = urls(r)
     t = r["time_min"]
     out = [f"# {r['title']}", ""]
-    if r.get("title_en"):
-        out += [f"*{r['title_en']}*", ""]
+    if r.get("title_ru"):
+        out += [f"*{r['title_ru']}*", ""]
     out += [r["summary"], ""]
     if u["image_url"]:
         out += [f"![{r['title']}]({u['image_url']})", ""]
     out += [
-        f"- **Порций:** {r['servings']}" + (f" (выход ≈{r['yield_g']} г)" if r.get("yield_g") else ""),
-        f"- **Время:** {t.get('total')} мин (подготовка {t.get('prep')}, готовка {t.get('cook')})",
-        f"- **Тип:** {', '.join(r['course'])}" + (f"; кухня: {r['cuisine']}" if r.get("cuisine") else ""),
+        f"- **Servings:** {r['servings']}" + (f" (yield ≈{r['yield_g']} g)" if r.get("yield_g") else ""),
+        f"- **Time:** {t.get('total')} min (prep {t.get('prep')}, cook {t.get('cook')})",
+        f"- **Course:** {', '.join(r['course'])}" + (f"; cuisine: {r['cuisine']}" if r.get("cuisine") else ""),
     ]
     if r.get("diet"):
-        out.append(f"- **Диета:** {', '.join(r['diet'])}")
+        out.append(f"- **Diet:** {', '.join(r['diet'])}")
     if r.get("method"):
-        out.append(f"- **Способ:** {', '.join(r['method'])}")
-    out.append(f"- **Теги:** {', '.join(r['tags'])}")
+        out.append(f"- **Method:** {', '.join(r['method'])}")
+    out.append(f"- **Tags:** {', '.join(r['tags'])}")
     n = r.get("nutrition")
     if n:
-        extra = f", клетчатка {n['fiber_g']} г" if "fiber_g" in n else ""
-        out.append(f"- **КБЖУ ({n['basis']}):** {n['kcal']} ккал, Б {n['protein_g']} г, "
-                   f"Ж {n['fat_g']} г, У {n['carbs_g']} г{extra}" + (" — оценка" if n.get("estimated") else ""))
-    out += ["", f"## Ингредиенты (на {r['servings']} порц.)", ""]
+        extra = f", fiber {n['fiber_g']} g" if "fiber_g" in n else ""
+        out.append(f"- **Nutrition ({n['basis']}):** {n['kcal']} kcal, protein {n['protein_g']} g, "
+                   f"fat {n['fat_g']} g, carbs {n['carbs_g']} g{extra}" + (" — estimate" if n.get("estimated") else ""))
+    out += ["", f"## Ingredients (for {r['servings']} servings)"]
     group = None
     for i in r["ingredients"]:
         if i.get("group") and i["group"] != group:
             group = i["group"]
-            out += ["", f"**{group}**", ""]
+            out += ["", f"**{group}**"]
+        if group is None and out[-1].startswith("##"):
+            out.append("")
         out.append(f"- {fmt_ing(i)}")
-    out += ["", "## Список покупок", ""]
+    out += ["", "## Shopping list", ""]
     for s in r["shopping_list"]:
         line = f"- [ ] {s['item']} — {s['qty']}"
         if s.get("alt"):
-            line += f" (или: {s['alt']})"
+            line += f" (or: {s['alt']})"
         out.append(line)
-    out += ["", "## Приготовление", ""]
+    out += ["", "## Method", ""]
     out += [f"{n}. {s}" for n, s in enumerate(r["steps"], 1)]
     if r.get("tips"):
-        out += ["", "## Советы", ""] + [f"- {x}" for x in r["tips"]]
+        out += ["", "## Tips", ""] + [f"- {x}" for x in r["tips"]]
     if r.get("storage"):
-        out += ["", f"**Хранение:** {r['storage']}"]
+        out += ["", f"**Storage:** {r['storage']}"]
     src = r["source"]
-    out += ["", "## Источник", "", f"- Видео: {src['url']}" + (f" ({src['channel']})" if src.get("channel") else "")]
+    out += ["", "## Source", "", f"- Video: {src['url']}" + (f" ({src['channel']})" if src.get("channel") else "")]
     if src.get("recipe_url"):
-        out.append(f"- Рецепт автора: {src['recipe_url']}")
+        out.append(f"- Author's recipe: {src['recipe_url']}")
     if src.get("note"):
         out.append(f"- {src['note']}")
     out += ["", f"JSON: {u['json_url']}", ""]
@@ -125,7 +127,7 @@ def index_entry(r):
     return {
         "slug": r["slug"],
         "title": r["title"],
-        "title_en": r.get("title_en"),
+        "title_ru": r.get("title_ru"),
         "summary": r["summary"],
         "course": r["course"],
         "cuisine": r.get("cuisine"),
@@ -141,19 +143,19 @@ def index_entry(r):
     }
 
 
-LLMS_HEADER = """# Рецепты (база для AI-агентов)
+LLMS_HEADER = """# Recipes (knowledge base for AI agents)
 
-> Личная база проверенных рецептов с граммовками, списками покупок, КБЖУ и фото готового блюда. Все рецепты на русском.
+> A personal collection of tested recipes with gram quantities, shopping lists, nutrition estimates and a photo of the finished dish. The owner speaks Russian: `title_ru` holds the Russian dish name — answer the user in Russian unless asked otherwise.
 
-Как пользоваться:
-- Найти рецепт: загрузить {site}/index.json (все рецепты с тегами, основными продуктами, временем и ккал) и отфильтровать по полям `tags`, `main_ingredients`, `course`, `diet`, `method`.
-- Всё сразу одним файлом: {site}/llms-full.txt
-- Конкретный рецепт: `md_url` (Markdown) или `json_url` (структурированные данные).
-- Если пользователь в магазине — отдавать раздел «Список покупок» (`shopping_list`). Если готовит — «Ингредиенты» и «Приготовление».
-- Масштабирование порций: граммовки указаны на `servings` порций; пересчитывать пропорционально, специи — осторожнее.
-- Картинка готового блюда: `image_url` (PNG), можно показывать пользователю.
+How to use:
+- Find a recipe: fetch {site}/index.json (every recipe with tags, main ingredients, time and kcal) and filter by `tags`, `main_ingredients`, `course`, `diet`, `method`, `title`, `title_ru`.
+- Everything in one file: {site}/llms-full.txt
+- A single recipe: `md_url` (Markdown) or `json_url` (structured data).
+- User is at the store → return the "Shopping list" (`shopping_list`). User is cooking → return "Ingredients" and "Method".
+- Scaling: quantities are for `servings` servings; scale proportionally, be more conservative with spices.
+- Finished-dish photo: `image_url` (PNG), may be shown to the user.
 
-## Рецепты
+## Recipes
 """
 
 
@@ -167,7 +169,7 @@ def main():
     (OUT / ".nojekyll").write_text("")
 
     entries = []
-    full = [LLMS_HEADER.format(site=SITE_URL).split("## Рецепты")[0]]
+    full = [LLMS_HEADER.format(site=SITE_URL).split("## Recipes")[0]]
     for r in recipes:
         md = to_markdown(r)
         data = {**r, **urls(r)}
@@ -183,8 +185,8 @@ def main():
 
     lines = [LLMS_HEADER.format(site=SITE_URL)]
     for e in entries:
-        lines.append(f"- [{e['title']}]({e['md_url']}): {', '.join(e['course'])}; "
-                     f"{', '.join(e['main_ingredients'])}; {e['time_total_min']} мин")
+        lines.append(f"- [{e['title']}]({e['md_url']}) ({e['title_ru']}): {', '.join(e['course'])}; "
+                     f"{', '.join(e['main_ingredients'])}; {e['time_total_min']} min")
     (OUT / "llms.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     (OUT / "llms-full.txt").write_text("\n".join(full), encoding="utf-8")
 
@@ -193,21 +195,21 @@ def main():
         f'(<a href="recipes/{html.escape(e["slug"])}.json">json</a>) — '
         f'{html.escape(", ".join(e["tags"]))}</li>' for e in entries)
     (OUT / "index.html").write_text(f"""<!doctype html>
-<html lang="ru"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Рецепты</title>
+<title>Recipes</title>
 <link rel="alternate" type="text/plain" href="llms.txt">
 <link rel="alternate" type="application/json" href="index.json">
 </head><body>
-<h1>Рецепты</h1>
-<p>База рецептов для AI-агентов. Начните с <a href="llms.txt">llms.txt</a>,
-полный список — <a href="index.json">index.json</a>, всё одним файлом — <a href="llms-full.txt">llms-full.txt</a>.</p>
+<h1>Recipes</h1>
+<p>Recipe knowledge base for AI agents. Start with <a href="llms.txt">llms.txt</a>,
+full list in <a href="index.json">index.json</a>, everything in one file: <a href="llms-full.txt">llms-full.txt</a>.</p>
 <ul>
 {items}
 </ul>
 </body></html>
 """, encoding="utf-8")
-    print(f"Собрано рецептов: {len(entries)} → {OUT}")
+    print(f"Built {len(entries)} recipes → {OUT}")
 
 
 if __name__ == "__main__":
